@@ -1,6 +1,6 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from data import Homework
-from flask_mysqldb import MYSQL
+from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 
@@ -31,19 +31,20 @@ def register():
 
     #checks if request method is post or get
     if request.method == 'POST' and form.validate():
+        return render_template('register.html')
 
     return render_template('register.html', form = form)
 
 class RegistrationForm(Form):
     name = StringField('Name', [validators.length(min = 1, max = 50)])
     username = StringField('Username', [validators.length(min = 2, max = 30)])
-    email = StringField('Email', [validators.length(min=3, max=50)])
+    email = StringField('Email', [validators.length(min=3, max=100)])
     password = StringField('Password', [
-                    validators.DataRequired(),
-                    validators.EqualTo('confirm', message = 'Passwords do not match')
+        validators.DataRequired(),
+        validators.EqualTo('confirm', message = 'Passwords do not match')
     ])
     confirm = PasswordField('Cofirm Password')
-        
+
 
 if __name__ == '__main__' :
     app.run(debug=True)
