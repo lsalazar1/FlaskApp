@@ -8,11 +8,15 @@ Clone the repository, it should include the following:
 * myFLask/app.py
 * myFlask/data.py
 * myFlask/templates/includes/_navbar.html
+* myFlask/templates/includes/_formhelpers.html
+* myFlask/templates/includes/_messages.html
 * myFlask/templates/about.html
 * myFlask/templates/assignment.html
 * myFlask/templates/home.html
 * myFlask/templates/homework.html
 * myFlask/templates/layout.html
+* myFlask/templates/register.html
+
 
 
 ### Installing
@@ -24,6 +28,7 @@ In the "myFlask" folder, run the command "python app.py". This Flask web applica
 
 * [Flask](http://flask.pocoo.org/)
 * [Python](https://www.python.org/downloads/) 
+* [MySQL](https://www.mysql.com/)
 
 
 
