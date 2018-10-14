@@ -57,10 +57,10 @@ def register():
         # Close MySQL
         cur.close()
 
-        flash('Welcome! Thanks for registering!')
+        flash('Welcome! Thanks for registering!', 'success')
 
     
-        return render_template('register.html')
+        return redirect(url_for('index'))
 
     return render_template('register.html', form = form)
 
@@ -76,4 +76,5 @@ class RegistrationForm(Form):
 
 
 if __name__ == '__main__' :
+    app.secret_key = 'password'
     app.run(debug=True)
