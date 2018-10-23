@@ -142,7 +142,7 @@ class RegistrationForm(Form):
         validators.DataRequired(),
         validators.EqualTo('confirm', message = 'Passwords do not match')
     ])
-    confirm = PasswordField('Cofirm Password')
+    confirm = PasswordField('Confirm Password')
 
 
 if __name__ == '__main__' :
