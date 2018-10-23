@@ -1,7 +1,9 @@
-from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
+from flask import Flask, render_template, flash, redirect,\
+     url_for, session, logging, request
 from data import Homework
 from flask_mysqldb import MySQL
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators
+from wtforms import Form, StringField, TextAreaField,\
+     PasswordField, validators
 from passlib.hash import sha256_crypt
 from functools import wraps
 
@@ -63,7 +65,7 @@ def register():
         # Close MySQL
         cur.close()
 
-        flash('Welcome! Thanks for registering!', 'success')
+        flash("Welcome! Thanks for registering!", 'success')
 
     
         return redirect(url_for('login'))
@@ -93,12 +95,14 @@ def login():
                 #Successful login
                 session['logged_in'] = True
                 session['username'] = username
+                session['uid'] = data['uid']
 
-                flash('Hello there!', 'success')
+                flash("Hello, you are now logged in", 'success')
                 return redirect(url_for('dashboard'))
             else:
                 error = 'Incorrect Password'
                 return render_template('login.html', error=error)
+
             # Close MySQL connection
             cur.close()
 
@@ -115,7 +119,7 @@ def is_logged_in(f):
         if 'logged_in' in session:
             return f(*args, **kwargs)
         else:
-            flash("You don't have access yet! Please login!" , 'danger')
+            flash("Unauthorized access" , 'danger')
             return redirect(url_for('login'))
     return wrap
 
@@ -133,6 +137,38 @@ def logout():
 
     return redirect(url_for('login'))
 
+# Add Assignment
+@app.route("/add_assignment", methods = ['GET', 'POST'])
+@is_logged_in
+def add_assignment():
+    form = AssignmentForm(request.form)
+    if request.method == 'POST' and form.validate():
+        assignment = form.assignment.data
+        course = form.course.data
+        dueDate = form.dueDate.data
+        description = form.description.data
+
+        # Create MySQL Cursor
+        cur = mysql.connection.cursor()
+
+        # Execute cur commands
+        cur.execute("INSERT INTO assignments(assignmentName, course, dueDate, description, uid) VALUES(%s, %s, %s, %s, %s)",\
+         (assignment, course, dueDate, description, session['uid']))
+
+        # Commit to DB
+        mysql.connection.commit()
+
+        # Close Connection
+        cur.close()
+
+        flash('Assignment has been added', 'success')
+
+        return redirect(url_for('dashboard'))
+    
+    return render_template('add_assignment.html', form=form)
+
+
+
 # Register Form Class
 class RegistrationForm(Form):
     name = StringField('Name', [validators.length(min = 1, max = 50)])
@@ -143,6 +179,13 @@ class RegistrationForm(Form):
         validators.EqualTo('confirm', message = 'Passwords do not match')
     ])
     confirm = PasswordField('Confirm Password')
+
+# Assignment Form Class
+class AssignmentForm(Form):
+    assignment = StringField('Assignment Name', [validators.length(min=1, max=50)])
+    course = StringField('Course Name (Ex. COMP3333)', [validators.length(min=1,max=9)])
+    dueDate = StringField('Due Date (Ex. YYYY-MM-DD)', [validators.length(min=1)])
+    description = StringField('Description', [validators.length(min=1)])
 
 
 if __name__ == '__main__' :

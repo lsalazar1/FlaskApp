@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <h1>Add an Assignment</h1>
+    {% from "includes/_formhelpers.html" import render_field %}
+    <form method="POST" action="">
+        <!-- For Assignment Name-->
+        <div class="form-group">
+            {{ render_field(form.assignment, class_="form-control") }}
+        </div>
+
+        <!-- For Course Name-->
+        <div class="form-group">
+                {{ render_field(form.course, class_="form-control") }}
+        </div>
+
+        <!-- For Due Date-->
+        <div class="form-group">
+                {{ render_field(form.dueDate, class_="form-control") }}
+        </div>
+
+        <!-- For Description of Assignment-->
+        <div class="form-group">
+                {{ render_field(form.description, class_="form-control") }}
+        </div>
+        <p><input class="btn btn-primary" type="submit" value="Submit">
+    </form>
+
+{% endblock %}
