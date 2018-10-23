@@ -4,4 +4,27 @@
     <h1> Dashboard <small> Welcome, {{session.username}}</small></h1>
     <a class="btn btn-primary" href="/add_assignment">Add an assignment</a>
     <hr>
+
+    <table class="table table-striped">
+        <tr>
+            <th>ID</th>
+            <th>Course</th>
+            <th>Assignment Name</th>
+            <th>Description</th>
+            <th>Due Date</th>
+            <th></th>
+            <th></th>
+        </tr>
+            {% for assignment in assignments %}
+                <tr>
+                    <td>{{assignment.id}}</td>
+                    <td>{{assignment.course}}</td>
+                    <td>{{assignment.assignmentName}}</td>
+                    <td>{{assignment.description}}</td>
+                    <td>{{assignment.dueDate}}</td>
+                    <td><a href="edit_assignment/{{assignment.id}}" class="btn btn-default pull-right">Edit</a></td>
+                    <td><a href="#" class="btn btn-danger">Delete</a></td>
+                </tr>
+            {% endfor %}        
+    </table>
 {% endblock %}

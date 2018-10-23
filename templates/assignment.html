@@ -1,5 +1,8 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    <h1>{{id}}</h1>
+    <h1>{{assignment.assignmentName}}</h1>
+    <small>Entered into database on {{assignment.dateEntry_Created}} from {{assignment.course}}</small>
+    <hr>
+    <div>{{assignment.description | safe}}</div>
 {% endblock %}

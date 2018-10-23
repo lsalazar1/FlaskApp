@@ -1,6 +1,6 @@
 from flask import Flask, render_template, flash, redirect,\
      url_for, session, logging, request
-from data import Homework
+# from data import Homework
 from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField,\
      PasswordField, validators
@@ -19,7 +19,7 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 # MySQL initializing...
 mysql = MySQL(app)
 
-Homework = Homework()
+# Homework = Homework()
 
 # Home page
 @app.route('/')
@@ -32,16 +32,38 @@ def about():
     return render_template('about.html')
 
 # Homework logger
-@app.route('/homework')
+@app.route('/assignments')
 def homework():
-    return render_template('homework.html', homework = Homework)
+    # Create cursor
+    cur = mysql.connection.cursor()
+
+    # Get assignments from DB
+    results = cur.execute("SELECT * FROM assignments")
+
+    assignments = cur.fetchall()
+
+
+    if results > 0:
+        return render_template('assignments.html', assignments = assignments)
+    else:
+        msg = "No assignments found"
+        return render_template('assignments.html', msg = msg)
+    
+    # Close cur connection
+    cur.close()
 
 
 # Specific Assignments
 @app.route('/assignment/<string:id>/')
 def assignment(id):
-    return render_template('assignment.html', id=id)
+    # Create cursor
+    cur = mysql.connection.cursor()
 
+     # Get assignments from DB
+    results = cur.execute("SELECT * FROM assignments WHERE id = %s", [id])
+    assignment = cur.fetchone()
+
+    return render_template('assignment.html', assignment=assignment)
 #Registration page
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
@@ -127,7 +149,23 @@ def is_logged_in(f):
 @app.route('/dashboard')
 @is_logged_in
 def dashboard():
-    return render_template('dashboard.html')
+    # Create cursor
+    cur = mysql.connection.cursor()
+
+    # Get assignments from DB
+    results = cur.execute("SELECT * FROM assignments")
+
+    assignments = cur.fetchall()
+
+
+    if results > 0:
+        return render_template('dashboard.html', assignments = assignments)
+    else:
+        msg = "No assignments found"
+        return render_template('dashboard.html', msg = msg)
+    
+    # Close cur connection
+    cur.close()
     
 # Logout
 @app.route('/logout')

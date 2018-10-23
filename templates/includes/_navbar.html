@@ -13,13 +13,14 @@
               <a class="nav-link" href="/about">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/homework">Work</a>
+              <a class="nav-link" href="/assignments">Assignments</a>
             </li>
           </ul>
 
           <ul class = "nav navbar-nav navbar-right">
             {% if session.logged_in %}
-              <li class="nav-link"><a href="/logout">Logout</a></li>
+            <li class="nav-link"><a href="/dashboard">Dashboard</a></li>
+            <li class="nav-link"><a href="/logout">Logout</a></li>
             {% else %}
               <li class="nav-link"><a href="/register">Register Now</a></li>
               <li class="nav-link"><a href="/login">Login</a></li>

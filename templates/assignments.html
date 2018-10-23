@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <h1>Assignments</h1>
+
+    <li class="list-group">
+    {% for assignment in assignments %}
+        <li class="list-group-item"><a href="assignment/{{assignment.id}}">{{assignment.assignmentName}}</a></li>
+    {% endfor %}
+    </li>
+
+{% endblock %}
