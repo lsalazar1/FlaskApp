@@ -1,6 +1,5 @@
 from flask import Flask, render_template, flash, redirect,\
      url_for, session, logging, request
-# from data import Homework
 from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField,\
      PasswordField, validators
@@ -18,8 +17,6 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 # MySQL initializing...
 mysql = MySQL(app)
-
-# Homework = Homework()
 
 # Home page
 @app.route('/')
