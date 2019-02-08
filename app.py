@@ -61,7 +61,8 @@ def assignment(id):
     assignment = cur.fetchone()
 
     return render_template('assignment.html', assignment=assignment)
-#Registration page
+
+# Registration page
 @app.route('/register', methods = ['GET', 'POST'])
 def register():
     form = RegistrationForm(request.form)
@@ -202,8 +203,6 @@ def add_assignment():
     
     return render_template('add_assignment.html', form=form)
 
-
-
 # Register Form Class
 class RegistrationForm(Form):
     name = StringField('Name', [validators.length(min = 1, max = 50)])
@@ -222,7 +221,7 @@ class AssignmentForm(Form):
     dueDate = StringField('Due Date (Ex. YYYY-MM-DD)', [validators.length(min=1)])
     description = StringField('Description', [validators.length(min=1)])
 
-
+# Runs the Code
 if __name__ == '__main__' :
     app.secret_key = 'password'
     app.run(debug=True)
